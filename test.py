@@ -1,0 +1,31 @@
+import sys
+
+from skelebash.lib.style import printTypewriter
+from skelebash.lib.skelebash import Skelebash
+from skelebash.mods.venom import VenomDagger, VenomFang
+from skelebash.lib.skelepanel import skelepanel
+from skelebash.lib.util import new
+from skelebash.lib.skillset import Skillset
+from skelebash.lib.itembundle import ItemBundle
+from skelebash.mods.test import Slime
+
+
+skelebash: Skelebash = Skelebash.promptLoad(sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("-") else None)    
+
+def main() -> None:
+    if skelebash.new:
+        from skelebash.lib.skill import Punch
+        from skelebash.lib.entity import Entity
+        
+        skelebash.player.skills.skills.append(Punch())
+        skelebash.player.inventory.add(VenomDagger()*1)
+        skelebash.player.inventory.add(VenomFang()*30)
+        slime: Slime = Slime()
+        skelebash.room.enemies = [slime]
+        skelebash.saveGame()
+
+    skelebash.startGame()
+if "--skelepanel" in sys.argv:
+    skelepanel(skelebash, main)
+else:
+    main()
