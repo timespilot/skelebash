@@ -66,5 +66,6 @@ SAVES_DIR: pathlib.Path = pathlib.Path(__file__).parent.parent / "saves"
 CORE_DIR: pathlib.Path = pathlib.Path(__file__).parent
 MODS_DIR: pathlib.Path = pathlib.Path(__file__).parent.parent / "mods"
 ANIMATIONS_DIR: pathlib.Path = pathlib.Path(__file__).parent.parent / "animations"
+ANIMATION_BUFFER: int = 6
 PUBLIC_DIR: pathlib.Path = pathlib.Path(__file__).parent.parent / "public"
 LAST_OPENED_FILE: pathlib.Path = pathlib.Path(__file__).parent.parent / "LAST_OPENED.txt"

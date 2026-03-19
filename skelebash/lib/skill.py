@@ -3,7 +3,7 @@ import typing, random
 
 
 from .animation import CLASH_ANIMATION
-from .style import printStyle, printTypewriter, Style
+from .style import printStyle, printTypewriter, Style, enterToContinue
 from .animation import Animation
 from .util import pct
 from .damagesource import DamageSource
@@ -107,6 +107,7 @@ class Skill:
                     combo_extendable=self.base_stun >= 1,
                     finisher=damage >= target.hp
                 )
+                enterToContinue()
                 self.afterUse(entity, target, used)
                 printTypewriter(f"* the attack deals {Style.RED}{damage} damage{Style.RESET} to {Style.BRIGHT_GREEN}{target.name}{Style.RESET}!")
                 printStyle(

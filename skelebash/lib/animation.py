@@ -2,7 +2,7 @@ from __future__ import annotations
 import time, pathlib, typing
 
 from .style import clearScreen, printStyle, Style
-from .constants import ANIMATIONS_DIR
+from .constants import ANIMATIONS_DIR, ANIMATION_BUFFER
 
 
 class Animation:
@@ -19,7 +19,7 @@ class Animation:
         return cls(*frames, name=name, delay=delay)
     def play(self, loop: int = 1) -> None:
         for frame in self.frames * loop:
-            printStyle(frame)
+            printStyle(f"{'\n'*ANIMATION_BUFFER}{' '*ANIMATION_BUFFER+frame.replace('\n', '\n' + ' '*ANIMATION_BUFFER)}")
             time.sleep(self.delay)
             clearScreen()
 

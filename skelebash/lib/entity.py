@@ -148,7 +148,8 @@ class Entity:
         if self.brain:
             self.brain.onTick(self, skelebash)
     def __repr__(self) -> str:
-        return f"Entity(\n  '{self.name}',\n  {self.hp}/{self.max_hp}hp,\n  {self.st}/{self.max_st}st,\n  {self.mn}/{self.max_mn}mn,\n  inventory={'\n'.join(['  '+line for line in repr(self.inventory).split('\n') if line.strip()]).strip()}\n)"
+        inventory_items: str = '\n'.join(['  '+line for line in repr(self.inventory).split('\n') if line.strip()]).strip()
+        return f"Entity(\n  '{self.name}',\n  {self.hp}/{self.max_hp}hp,\n  {self.st}/{self.max_st}st,\n  {self.mn}/{self.max_mn}mn,\n  inventory={inventory_items}\n)"
 
 class Player(Entity):
     NAME: str = "player"

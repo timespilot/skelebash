@@ -23,7 +23,10 @@ class Skelebash:
         self.id: str = save_id or self.generateID()
         self.selected: typing.Any = self
     def __repr__(self) -> str:
-        return f"Skelebash(\n  '{self.id}',\n  player={'\n'.join(['  '+line for line in repr(self.player).split('\n') if line.strip()]).strip()},\n  dungeon={'\n'.join(['  '+line for line in repr(self.dungeon).split('\n') if line.strip()]).strip()},\n  room={'\n'.join(['  '+line for line in repr(self.room).split('\n') if line.strip()]).strip()},\n  temp={self.temp}\n)"
+        player_repr: str = '\n'.join(['  '+line for line in repr(self.player).split('\n') if line.strip()]).strip()
+        dungeon_repr: str = '\n'.join(['  '+line for line in repr(self.dungeon).split('\n') if line.strip()]).strip()
+        room_repr: str = '\n'.join(['  '+line for line in repr(self.room).split('\n') if line.strip()]).strip()
+        return f"Skelebash(\n  '{self.id}',\n  player={player_repr},\n  dungeon={dungeon_repr},\n  room={room_repr},\n  temp={self.temp}\n)"
     @classmethod
     def promptLoad(cls, choose: str | None = None) -> Skelebash:
         if not choose:
@@ -219,11 +222,11 @@ class Skelebash:
                     clearScreen()
                     printTypewriter("\n--- SKILL TREE / ATTRIBUTES ---", 0.005)
                     printTypewriter(f"Available Skill Points: {Style.YELLOW}{self.player.skill_points}{Style.RESET}", 0.005)
-                    printCommandPrompt("1", f"Upgrade Max HP (currently: {self.player.max_hp}) -> +10")
-                    printCommandPrompt("2", f"Upgrade Max SP (currently: {self.player.max_st}) -> +10")
-                    printCommandPrompt("3", f"Upgrade Max MN (currently: {self.player.max_mn}) -> +5")
-                    printCommandPrompt("4", f"Upgrade Strength (currently: {self.player.strength_pct}%) -> +5%")
-                    printCommandPrompt("5", f"Upgrade Defense (currently: {self.player.defense_pct}%) -> +5%")
+                    printCommandPrompt("1", f"upgrade max HP (currently: {self.player.max_hp}) -> +10")
+                    printCommandPrompt("2", f"upgrade max SP (currently: {self.player.max_st}) -> +10")
+                    printCommandPrompt("3", f"upgrade max MN (currently: {self.player.max_mn}) -> +5")
+                    printCommandPrompt("4", f"upgrade Strength (currently: {self.player.strength_pct}%) -> +5%")
+                    printCommandPrompt("5", f"upgrade Defense (currently: {self.player.defense_pct}%) -> +5%")
                     printCommandPrompt("b", "back")
                     
                     s_inp = prompt("upgrade", self)
@@ -231,7 +234,7 @@ class Skelebash:
                         break
                     
                     if self.player.skill_points <= 0:
-                        printTypewriter(f"{Style.RED}Not enough skill points!{Style.RESET}")
+                        printTypewriter(f"{Style.RED}not enough skill points!{Style.RESET}")
                         enterToContinue()
                         continue
                         
@@ -283,8 +286,9 @@ class Skelebash:
             if not active_enemy.brain:
                 from .brain import ComplexBrain
                 active_enemy.brain = ComplexBrain()
-            
-            printTypewriter(f"\n--- {active_enemy.name + ('\'' if active_enemy.name.endswith('s') else '\'s')} turn ---")
+
+            possessive: str = '\'' if active_enemy.name.endswith('s') else '\'s'
+            printTypewriter(f"\n--- {active_enemy.name + possessive} turn ---")
             printTypewriter(f"\n{Style.BRIGHT_BLACK}thinking...\n", 0.1)
 
             enemy_skill = active_enemy.brain.decide(active_enemy, self.player)
@@ -293,8 +297,9 @@ class Skelebash:
             
             enterToContinue()
             if success:
-                self.tick()
-    def tick(self) -> None:
+                print("tick!")
+                self.onTick()
+    def onTick(self) -> None:
         for attribute in self.__dict__:
             if hasattr(attribute, "onTick"):
                 attribute.onTick(self)

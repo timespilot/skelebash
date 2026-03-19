@@ -68,7 +68,8 @@ def printTypewriter(text: str, delay: float = 0.02, printer: typing.Callable = l
     print(f"{Style.RESET}")
 def printCommandPrompt(cmd: str, info: str, printer: typing.Callable = lambda text: printTypewriter(text, 0.005)) -> None:
     indentation: str = " " * (len(re.sub(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])', '', str(cmd))) + 3)
-    printer(f"{Style.BOLD}[{cmd}{Style.RESET}{Style.BOLD}]{Style.RESET} {info.replace('\n', '\n' + indentation)}")
+    new_info: str = info.replace('\n', '\n' + indentation)
+    printer(f"{Style.BOLD}[{cmd}{Style.RESET}{Style.BOLD}]{Style.RESET} {new_info}")
 def breakLine(count: int = 1) -> None:
     print("\n" * (count - 1))
 def clearScreen() -> None:
@@ -110,5 +111,5 @@ def prompt(key: str, skelebash: Skelebash | None = None) -> str:
             continue
         except EOFError:
             if skelebash:
-                skelebash.save()
+                skelebash.saveGame()
             exit(1)

@@ -110,7 +110,8 @@ class Item:
             printPanel(f"{self.name} [{self.rarity}]")
             use_command: str = "e" if self.use_text.strip()[0] in "bu" else self.use_text.strip()[0]
             if self.level:
-                printPanel(f"{Style.YELLOW}{Style.BOLD}level {self.level}/{30}{Style.RESET}{''.join(['\n'+colorBuff(buff) for buff in self.upgrade_buffs[self.level - 1]])}")
+                buffs: str = ''.join(['\n'+colorBuff(buff) for buff in self.upgrade_buffs[self.level - 1]])
+                printPanel(f"{Style.YELLOW}{Style.BOLD}level {self.level}/{30}{Style.RESET}{buffs}")
             if self.mastery != -1:
                 printPanel(f"{Style.BRIGHT_BLUE}{Style.BOLD}mastery {math.floor(self.mastery / 100)}{Style.RESET}{Style.BRIGHT_BLUE}\n[{'█' * ((self.mastery % 100) // 10) + '░' * (10 - (self.mastery % 100) // 10)}] {self.mastery % 100}/100mXP until {self.mastery // 100 + 1}")
             ((lambda text: printTypewriter(text, 0.01) )if first else printStyle)(f"{Style.BOLD}description: {Style.RESET}{self.description}")
